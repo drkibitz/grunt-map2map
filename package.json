@@ -1,0 +1,25 @@
+{
+    "name": "grunt-map2map",
+    "description": "Map one source map to another source map",
+    "version": "0.0.2",
+    "homepage": "https://github.com/drkibitz/grunt-map2map",
+    "author": {
+        "name": "Dr. Kibitz",
+        "url": "http://drkibitz.com/"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/drkibitz/grunt-map2map.git"
+    },
+    "main": "Gruntfile.js",
+    "engines": {
+        "node": ">= 0.8.0"
+    },
+    "dependencies": {
+        "source-map": "~0.1.22"
+    },
+    "peerDependencies": {
+        "grunt": "~0.4.0"
+    },
+    "keywords": ["gruntplugin"]
+}
