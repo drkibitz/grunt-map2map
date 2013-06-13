@@ -8,6 +8,8 @@ Why would you want this? Lets say...
 - Run compiled JavaScript through Closure Compiler and generate another source map
 - Remap the source map for the obfuscated code back to the original Typescript
 
+**NOTE:** This module does not fix any of the problems with source maps generated along with Closure Compiler's `ADVANCED_OPTIMIZATIONS`.
+
 ## Install
 
 ```shell
@@ -19,10 +21,15 @@ npm install grunt-map2map --save-dev
 ```javascript
 grunt.initConfig({
 	map2map: {
+		options: {
+			autoSourceMappingURL: true                   // find/replace/append sourceMappingURL
+		},
 		main: {
-			generated: 'bin/main.obfuscated.js.map', // obfuscated source map
-			original: 'bin/main.compiled.js.map',    // compiled/concat source map
-			dest: 'bin/main.final.js.map'            // where to write remapped file
+			options: {
+				generated: 'bin/main.obfuscated.js.map', // obfuscated/minified source map
+				original: 'bin/main.compiled.js.map',    // compiled/concat source map
+				dest: 'bin/main.final.js.map',           // where to write remapped file
+			}
 		}
 	}
 });
