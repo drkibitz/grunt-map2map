@@ -1,7 +1,7 @@
 {
     "name": "grunt-map2map",
     "description": "Map one source map to another source map",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "homepage": "https://github.com/drkibitz/grunt-map2map",
     "author": {
         "name": "Dr. Kibitz",

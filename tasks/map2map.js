@@ -13,12 +13,19 @@ module.exports = function (grunt) {
     var path = require('path');
     var sm = require('source-map');
 
+    function appendSourceMappingURL(sourcePath, url) {
+        var contents = grunt.file.read(sourcePath);
+        grunt.log.writeln('Appending sourceMappingURL: ' + url.cyan);
+        contents += "/*\n//@ sourceMappingURL=" + url + "\n*/";
+        grunt.file.write(sourcePath, contents);
+    }
+
     grunt.registerMultiTask('map2map', function () {
 
-        var config        = grunt.config(this.name)[this.target];
-        var generatedPath = path.resolve(grunt.template.process(config.generated));
-        var originalPath  = path.resolve(grunt.template.process(config.original));
-        var destPath      = path.resolve(grunt.template.process(config.dest));
+        var options       = this.options();
+        var generatedPath = path.resolve(options.generated);
+        var originalPath  = path.resolve(options.original);
+        var destPath      = options.dest ? path.resolve(options.dest) : generatedPath;
 
         var genConsumer   = new sm.SourceMapConsumer(grunt.file.readJSON(generatedPath));
         var origConsumer  = new sm.SourceMapConsumer(grunt.file.readJSON(originalPath));
@@ -49,36 +56,11 @@ module.exports = function (grunt) {
         });
 
         // Write source map
-        grunt.file.write(destPath || generatedPath, smg.toString());
+        grunt.file.write(destPath, smg.toString());
 
-        var hasMappingURL = false;
-        var write = false;
-        var url = path.relative(path.dirname(sourcePath), destPath);
-
-        if (!config.autoSourceMappingURL) return;
-
-        // First try to find and replace current sourceMappingURL
-        var contents = grunt.file.read(sourcePath)
-            .replace(/(\/\/\@ sourceMappingURL\=)([\s\S]+)/g, function (a, $1, $2) {
-                hasMappingURL = true;
-                if ($2 !== url) {
-                    write = true;
-                    grunt.log.writeln('Replacing sourceMappingURL: ' + $2.cyan + ', with: ' + url.cyan);
-                    return $1.trim() + url + "\n";
-                }
-                grunt.log.writeln('Found sourceMappingURL: ' + $2.cyan);
-                return a;
-            });
-
-        // Found no sourceMappingURL, so append one now
-        if (!hasMappingURL) {
-            write = true;
-            grunt.log.writeln('Appending sourceMappingURL: ' + url.cyan);
-            contents += "//@ sourceMappingURL=" + url + "\n";
+        // append sourceMappingURL
+        if (options.sourceMappingURL) {
+            appendSourceMappingURL(sourcePath, options.sourceMappingURL);
         }
-
-        // Write source
-        if (write)
-            grunt.file.write(sourcePath, contents);
     });
 };
