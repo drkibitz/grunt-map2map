@@ -43,3 +43,7 @@ grunt.initConfig({
 	}
 });
 ```
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/drkibitz/grunt-map2map/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
