@@ -19,7 +19,9 @@
         "source-map": "~0.1.22"
     },
     "peerDependencies": {
-        "grunt": "~0.4.0"
+        "grunt": ">=0.4.0"
     },
-    "keywords": ["gruntplugin"]
+    "keywords": [
+        "gruntplugin"
+    ]
 }
